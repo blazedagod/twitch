@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import StreamerList from "./streamerlist";
+import Button from "antd/lib/button";
+import Input from "antd/lib/input";
+import Form from "antd/lib/form";
+import "./App.css";
 
 class App extends Component {
   state = { userinput: "", streamers: [] };
@@ -77,22 +81,26 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ textAlign: "center" }} className="App">
+      <div className="App">
         <header style={{ backgroundColor: "purple" }}>
           <h1 style={{ color: "white" }}>Twitch Api</h1>
         </header>
         <div>
           <h2>See whose online</h2>
-          <form onSubmit={this.onlineStreamers} className="Form" id="user">
-            <input
+          <Form onSubmit={this.onlineStreamers} className="Form" id="user">
+            <Input
+              size="small"
+              enterButton
               onChange={this.onchange}
               type="text"
-              placeholder="enter your username"
+              defaultValue="enter your username"
               value={this.state.userinput}
             />
             <br />
-            <button>search</button>
-          </form>
+            <Button type="primary" size="small">
+              search
+            </Button>
+          </Form>
           <br />
         </div>
         <div>

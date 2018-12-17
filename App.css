@@ -1,0 +1,14 @@
+@import "~antd/dist/antd.css";
+
+.App {
+  text-align: center;
+}
+
+.Form {
+  width: 100%;
+  padding-left: 500px;
+  padding-right: 500px;
+}
+button {
+  margin: 10px;
+}
