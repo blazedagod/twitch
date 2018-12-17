@@ -1,20 +1,24 @@
 import React from "react";
-import Streamer from "./streamer";
+import { List, Card } from "antd";
 
 const StreamerList = props => {
   return (
     <div>
       <h2>{props.list.length} Streamers Online</h2>
-      <ul>
-        {props.list.map(streamer => (
-          <Streamer
-            name={streamer.name}
-            key={streamer.id}
-            thumbnail={streamer.thumbnail}
-            viewers={streamer.viewers}
-          />
-        ))}
-      </ul>
+      <List
+        grid={{ gutter: 16, column: 4 }}
+        dataSource={props.list}
+        renderItem={item => (
+          <List.Item>
+            <Card title={item.name}>
+              <img alt="" src={item.thumbnail} />
+              <br />
+              <span style={{ color: "red" }}> {item.viewers} </span>
+              Viewers
+            </Card>
+          </List.Item>
+        )}
+      />
     </div>
   );
 };

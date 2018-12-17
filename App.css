@@ -1,16 +1,19 @@
 @import "~antd/dist/antd.css";
 
-.App {
+.searchForm {
   text-align: center;
-}
-
-.Search {
-  padding-left: 500px;
-  padding-right: 500px;
+  padding-left: 450px;
+  padding-right: 450px;
+  padding-top: 13px;
 }
 button {
   margin-top: 25px;
+  margin-bottom: 25px;
 }
 .list {
-  margin-top: 25px;
+  margin-top: 15px;
+}
+.list {
+  text-align: center;
+  align-content: center;
 }

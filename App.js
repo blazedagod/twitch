@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import StreamerList from "./streamerlist";
 import "./App.css";
-import { Button, Input, Layout } from "antd";
+import { Button, Input, Menu, Breadcrumb, Layout } from "antd";
 
 const { Header, Content, Footer } = Layout;
 
 class App extends Component {
-  state = { userinput: "", streamers: [] };
+  state = { userinput: "", username: "", streamers: [] };
 
   onchange = e => this.setState({ userinput: e.target.value });
 
@@ -18,6 +18,7 @@ class App extends Component {
       .then(response => response.json())
       .then(json => {
         const id = json.data[0].id;
+        this.setState({ username: id });
         return id;
       })
       .catch(e => console.log(e));
@@ -58,7 +59,7 @@ class App extends Component {
       .then(response => response.json())
       .then(json => {
         console.log(json.data[0].thumbnail_url);
-        let liveStreams = json.data.map(streamer => {
+        let streamers = json.data.map(streamer => {
           let thumbnail = streamer.thumbnail_url;
           thumbnail = thumbnail.slice(0, thumbnail.length - 20);
           thumbnail += "250x150.jpg";
@@ -72,7 +73,6 @@ class App extends Component {
           };
         });
 
-        let streamers = [...this.state.streamers, ...liveStreams];
         this.setState({ streamers, userinput: "" });
       })
       .catch(e => e.message);
@@ -81,37 +81,54 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Layout>
-          <Header style={{ backgroundColor: "purple" }}>
-            <h1 style={{ color: "white" }}>Twitch Api</h1>
+        <Layout className="layout">
+          <Header>
+            <div className="logo" />
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={["1"]}
+              style={{ lineHeight: "64px" }}
+            >
+              <Menu.Item key="1">Following</Menu.Item>
+              <Menu.Item key="2">Top Streams</Menu.Item>
+              <Menu.Item key="3">Top Games</Menu.Item>
+            </Menu>
           </Header>
           <Content>
-            <div className="Search">
-              <h2>See whose online</h2>
+            <div style={{ padding: "0 0px" }}>
+              <Breadcrumb style={{ margin: "50px 0" }} />
+              <div
+                style={{
+                  background: "#fff"
+                }}
+              >
+                <div className="searchForm">
+                  <h2>See whose online</h2>
 
-              <form onSubmit={this.onlineStreamers}>
-                <Input
-                  size="small"
-                  onChange={this.onchange}
-                  type="text"
-                  placeholder="enter your username"
-                  value={this.state.userinput}
-                />
-                <br />
-                <Button type="primary" size="default">
-                  search
-                </Button>
-              </form>
+                  <form onSubmit={this.onlineStreamers}>
+                    <Input
+                      onChange={this.onchange}
+                      type="text"
+                      placeholder="enter your username"
+                      value={this.state.userinput}
+                    />
+                    <br />
+                    <Button type="primary">search</Button>
+                  </form>
+                </div>
+              </div>
             </div>
             <div className="list">
-              {this.state.streamers.length > 0 ? (
+              {this.state.username !== "" ? (
                 <StreamerList list={this.state.streamers} />
               ) : (
                 ""
               )}
             </div>
           </Content>
-          <Footer />
+
+          <Footer style={{ textAlign: "center" }}>Twitch Api</Footer>
         </Layout>
       </div>
     );
