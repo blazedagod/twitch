@@ -4,11 +4,13 @@
   text-align: center;
 }
 
-.Form {
-  width: 100%;
+.Search {
   padding-left: 500px;
   padding-right: 500px;
 }
 button {
-  margin: 10px;
+  margin-top: 25px;
+}
+.list {
+  margin-top: 25px;
 }

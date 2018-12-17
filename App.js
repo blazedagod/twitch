@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import StreamerList from "./streamerlist";
-import Button from "antd/lib/button";
-import Input from "antd/lib/input";
-import Form from "antd/lib/form";
 import "./App.css";
+import { Button, Input, Layout } from "antd";
+
+const { Header, Content, Footer } = Layout;
 
 class App extends Component {
   state = { userinput: "", streamers: [] };
@@ -42,7 +42,6 @@ class App extends Component {
 
   onlineStreamers = e => {
     e.preventDefault();
-
     this.findStreamers(this.state.userinput)
       .then(streamers => {
         let myHeaders = {
@@ -82,34 +81,38 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header style={{ backgroundColor: "purple" }}>
-          <h1 style={{ color: "white" }}>Twitch Api</h1>
-        </header>
-        <div>
-          <h2>See whose online</h2>
-          <Form onSubmit={this.onlineStreamers} className="Form" id="user">
-            <Input
-              size="small"
-              enterButton
-              onChange={this.onchange}
-              type="text"
-              defaultValue="enter your username"
-              value={this.state.userinput}
-            />
-            <br />
-            <Button type="primary" size="small">
-              search
-            </Button>
-          </Form>
-          <br />
-        </div>
-        <div>
-          {this.state.streamers.length > 0 ? (
-            <StreamerList list={this.state.streamers} />
-          ) : (
-            ""
-          )}
-        </div>
+        <Layout>
+          <Header style={{ backgroundColor: "purple" }}>
+            <h1 style={{ color: "white" }}>Twitch Api</h1>
+          </Header>
+          <Content>
+            <div className="Search">
+              <h2>See whose online</h2>
+
+              <form onSubmit={this.onlineStreamers}>
+                <Input
+                  size="small"
+                  onChange={this.onchange}
+                  type="text"
+                  placeholder="enter your username"
+                  value={this.state.userinput}
+                />
+                <br />
+                <Button type="primary" size="default">
+                  search
+                </Button>
+              </form>
+            </div>
+            <div className="list">
+              {this.state.streamers.length > 0 ? (
+                <StreamerList list={this.state.streamers} />
+              ) : (
+                ""
+              )}
+            </div>
+          </Content>
+          <Footer />
+        </Layout>
       </div>
     );
   }
