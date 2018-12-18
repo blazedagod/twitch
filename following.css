@@ -1,0 +1,25 @@
+@import "~antd/dist/antd.css";
+
+.searchForm {
+  text-align: center;
+  padding-left: 500px;
+  padding-right: 500px;
+  padding-top: 13px;
+}
+.App {
+  text-align: center;
+}
+button {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.list {
+  text-align: center;
+  align-content: center;
+  margin-top: 15px;
+}
+
+footer {
+  text-align: center;
+}

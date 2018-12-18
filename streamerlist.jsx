@@ -10,7 +10,7 @@ const StreamerList = props => {
         dataSource={props.list}
         renderItem={item => (
           <List.Item>
-            <Card title={item.name}>
+            <Card hoverable={true} title={item.name}>
               <img alt="" src={item.thumbnail} />
               <br />
               <span style={{ color: "red" }}> {item.viewers} </span>
