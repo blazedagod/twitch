@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./following.css";
 import { Layout } from "antd";
-import { Spin } from "antd";
 import FollowMenu from "./followmenu";
 import FollowContent from "./followcontent";
+import Loading from "./loading";
 
 const { Footer } = Layout;
 const myHeaders = {
@@ -62,8 +62,7 @@ class Following extends Component {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json.data[0].thumbnail_url);
-        let streamers = json.data.map(streamer => {
+        const streamers = json.data.map(streamer => {
           let thumbnail = streamer.thumbnail_url;
           thumbnail = thumbnail.slice(0, thumbnail.length - 20);
           thumbnail += "250x150.jpg";
@@ -84,11 +83,7 @@ class Following extends Component {
 
   render() {
     if (this.state.loading) {
-      return (
-        <div style={{ textAlign: "center", marginTop: 250 }}>
-          <Spin size="large" />
-        </div>
-      );
+      return <Loading />;
     }
     return (
       <div className="App">
