@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import "./following.css";
-import { Layout } from "antd";
-import FollowMenu from "./followmenu";
-import FollowContent from "./followcontent";
-import Loading from "./loading";
+import "./app.css";
+import Loading from "./loading.jsx";
+import FollowLayout from "./flayout";
 
-const { Footer } = Layout;
 const myHeaders = {
   headers: { "Client-ID": "mftf7euslgudgbke20l34acp24shbw" }
 };
@@ -82,24 +79,18 @@ class Following extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return <Loading />;
-    }
-    return (
-      <div className="App">
-        <Layout className="layout">
-          <FollowMenu />
-          <FollowContent
-            onlineStreamers={this.onlineStreamers}
-            username={this.state.username}
-            onChange={this.onChange}
-            userinput={this.state.userinput}
-            streamers={this.state.streamers}
-          />
-
-          <Footer>Twitch Api</Footer>
-        </Layout>
-      </div>
+    return this.state.loading ? (
+      <Loading />
+    ) : (
+      <FollowLayout
+        searchtext="enter your username"
+        heading={`${this.state.streamers.length} Streamers Online`}
+        userinput={this.state.userinput}
+        username={this.state.username}
+        onChange={this.onChange}
+        onSubmit={this.onlineStreamers}
+        streamers={this.state.streamers}
+      />
     );
   }
 }

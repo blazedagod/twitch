@@ -1,17 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Menu, Layout } from "antd";
-import "./following.css";
+import "./app.css";
 
 const { Header } = Layout;
 
-const FollowMenu = () => (
+const TwitchMenu = props => (
   <Header>
     <div className="logo" />
     <Menu
       theme="dark"
       mode="horizontal"
-      defaultSelectedKeys={["1"]}
+      defaultSelectedKeys={props.menukey}
       style={{ lineHeight: "64px" }}
     >
       <Menu.Item key="1">
@@ -29,4 +29,4 @@ const FollowMenu = () => (
   </Header>
 );
 
-export default FollowMenu;
+export default TwitchMenu;

@@ -1,11 +1,12 @@
 import React from "react";
-import "./following.css";
-import StreamerList from "./streamerlist";
-import { Button, Input, Breadcrumb, Layout } from "antd";
+import "./app.css";
+import StreamerList from "./streamerlist.jsx";
+import { Breadcrumb, Layout } from "antd";
+import SearchForm from "./searchform.jsx";
 
 const { Content } = Layout;
 
-const FollowContent = props => (
+const TwitchContent = props => (
   <Content>
     <div>
       <Breadcrumb style={{ margin: "50px 0" }} />
@@ -13,27 +14,24 @@ const FollowContent = props => (
         style={{
           background: "#fff"
         }}
-      >
-        <div className="searchForm">
-          <h2>See whose online</h2>
-
-          <form onSubmit={props.onlineStreamers}>
-            <Input
-              onChange={props.onChange}
-              type="text"
-              placeholder="enter your username"
-              value={props.userinput}
-            />
-            <br />
-            <Button type="primary">search</Button>
-          </form>
-        </div>
-      </div>
+      />
+      {props.searchtext ? (
+        <SearchForm
+          onSubmit={props.onSubmit}
+          onChange={props.onChange}
+          userinput={props.userinput}
+          searchtext={props.searchtext}
+        />
+      ) : null}
     </div>
     <div className="list">
-      {props.username !== "" ? <StreamerList list={props.streamers} /> : ""}
+      {props.username !== "" ? (
+        <StreamerList heading={props.heading} list={props.streamers} />
+      ) : (
+        ""
+      )}
     </div>
   </Content>
 );
 
-export default FollowContent;
+export default TwitchContent;

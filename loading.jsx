@@ -1,5 +1,5 @@
 import React from "react";
-import "./following.css";
+import "./app.css";
 import { Spin } from "antd";
 
 const Loading = () => (
