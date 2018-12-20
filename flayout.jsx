@@ -17,7 +17,7 @@ const FollowLayout = props => (
         username={props.username}
         onChange={props.onChange}
         userinput={props.userinput}
-        streamers={props.streamers}
+        list={props.list}
       />
 
       <Footer>Twitch Api</Footer>

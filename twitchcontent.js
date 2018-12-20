@@ -1,7 +1,7 @@
 import React from "react";
 import "./app.css";
 import StreamerList from "./streamerlist.jsx";
-import { Breadcrumb, Layout } from "antd";
+import { Breadcrumb, Layout, Pagination } from "antd";
 import SearchForm from "./searchform.jsx";
 
 const { Content } = Layout;
@@ -15,20 +15,21 @@ const TwitchContent = props => (
           background: "#fff"
         }}
       />
-      {props.searchtext ? (
+      {props.searchtext && (
         <SearchForm
           onSubmit={props.onSubmit}
           onChange={props.onChange}
           userinput={props.userinput}
           searchtext={props.searchtext}
         />
-      ) : null}
+      )}
     </div>
     <div className="list">
-      {props.username !== "" ? (
-        <StreamerList heading={props.heading} list={props.streamers} />
-      ) : (
-        ""
+      {props.username !== "" && (
+        <React.Fragment>
+          <StreamerList heading={props.heading} list={props.list} />
+          <Pagination defaultCurrent={1} total={10} />
+        </React.Fragment>
       )}
     </div>
   </Content>

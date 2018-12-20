@@ -1,30 +1,34 @@
-import React, { Component } from "react";
-import "./app.css";
-import TSLayout from "./tslayout";
+import React from "react";
+import { useState, useEffect } from "react";
 import Loading from "./loading.jsx";
+import TSLayout from "./tslayout";
+import "./app.css";
 
-const myHeaders = {
-  headers: { "Client-ID": "mftf7euslgudgbke20l34acp24shbw" }
-};
+function TopStreams() {
+  const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-class TopStreams extends Component {
-  state = { streamers: [], loading: true };
+  useEffect(() => {
+    getStreams();
+  }, []);
 
-  componentDidMount() {
-    this.getStreams();
-  }
+  const getStreams = async () => {
+    const url = "https://api.twitch.tv/helix/streams?first=24";
+    const myHeaders = {
+      headers: { "Client-ID": "mftf7euslgudgbke20l34acp24shbw" }
+    };
 
-  async getStreams() {
-    const url = "https://api.twitch.tv/helix/streams?first=20";
     const response = await fetch(url, myHeaders);
     const json = await response.json();
-
-    const streamers = json.data.map(streamer => {
+    const streams = json.data.map(streamer => {
       let thumbnail = streamer.thumbnail_url;
       thumbnail = thumbnail.slice(0, thumbnail.length - 20);
       thumbnail += "250x150.jpg";
+      let stream = `https://www.twitch.tv/${streamer.user_name}`;
+      console.log(stream);
 
       return {
+        url: stream,
         id: streamer.user_id,
         name: streamer.user_name,
         game: streamer.game_id,
@@ -33,16 +37,11 @@ class TopStreams extends Component {
       };
     });
 
-    this.setState({ streamers, loading: false });
-  }
+    setList(streams);
+    setLoading(false);
+  };
 
-  render() {
-    return this.state.loading ? (
-      <Loading />
-    ) : (
-      <TSLayout streamers={this.state.streamers} />
-    );
-  }
+  return loading ? <Loading /> : <TSLayout list={list} />;
 }
 
 export default TopStreams;
