@@ -1,12 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Loading from "./loading.jsx";
-import TSLayout from "./tslayout";
+import TopLayout from "./toplayout";
+import { myContext } from "./twitchcontext";
 import "./app.css";
 
 function TopStreams() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const heading = "Top Streams";
+  const menukey = "2";
 
   useEffect(() => {
     getStreams();
@@ -24,7 +27,9 @@ function TopStreams() {
       let thumbnail = streamer.thumbnail_url;
       thumbnail = thumbnail.slice(0, thumbnail.length - 20);
       thumbnail += "250x150.jpg";
+
       let stream = `https://www.twitch.tv/${streamer.user_name}`;
+
       console.log(stream);
 
       return {
@@ -41,7 +46,13 @@ function TopStreams() {
     setLoading(false);
   };
 
-  return loading ? <Loading /> : <TSLayout list={list} />;
+  return loading ? (
+    <Loading />
+  ) : (
+    <myContext.Provider value={{ list, heading }}>
+      <TopLayout menukey={menukey} />
+    </myContext.Provider>
+  );
 }
 
 export default TopStreams;

@@ -2,13 +2,16 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Loading from "./loading.jsx";
 import FollowLayout from "./flayout";
+import { myContext } from "./twitchcontext";
 import "./app.css";
 
 function Following() {
   const [userinput, setInput] = useState("");
-  const [username, setName] = useState("");
+  const [userid, setId] = useState("");
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const heading = `${list.length} Streamers Online`;
+  let searchtext = "enter your username";
 
   const myHeaders = {
     headers: { "Client-ID": "mftf7euslgudgbke20l34acp24shbw" }
@@ -29,7 +32,7 @@ function Following() {
     const response = await fetch(url, myHeaders);
     const json = await response.json();
     const id = json.data[0].id;
-    setName(id);
+    setId(id);
     setLoading(true);
 
     return id;
@@ -57,11 +60,13 @@ function Following() {
     const response = await fetch(url, myHeaders);
     const json = await response.json();
     const streamers = json.data.map(streamer => {
+      let stream = `https://www.twitch.tv/${streamer.user_name}`;
       let thumbnail = streamer.thumbnail_url;
       thumbnail = thumbnail.slice(0, thumbnail.length - 20);
       thumbnail += "250x150.jpg";
 
       return {
+        url: stream,
         id: streamer.user_id,
         name: streamer.user_name,
         game: streamer.game_id,
@@ -78,15 +83,19 @@ function Following() {
   return loading ? (
     <Loading />
   ) : (
-    <FollowLayout
-      searchtext="enter your username"
-      heading={`${list.length} Streamers Online`}
-      userinput={userinput}
-      username={username}
-      onChange={onChange}
-      onSubmit={onlineStreamers}
-      list={list}
-    />
+    <myContext.Provider
+      value={{
+        heading,
+        userid,
+        onChange,
+        onlineStreamers,
+        userinput,
+        searchtext,
+        list
+      }}
+    >
+      <FollowLayout />
+    </myContext.Provider>
   );
 }
 

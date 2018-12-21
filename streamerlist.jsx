@@ -1,22 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./app.css";
 import { List, Card } from "antd";
+import { myContext } from "./twitchcontext";
 
-const StreamerList = props => {
+const StreamerList = () => {
+  const { heading, changeList, list } = useContext(myContext);
   return (
     <div>
-      <h1 style={{ marginBottom: 35 }}>{props.heading}</h1>
+      <h1 style={{ marginBottom: 35 }}>{heading}</h1>
       <List
         grid={{ gutter: 16, column: 4 }}
-        dataSource={props.list}
+        dataSource={list}
         renderItem={item => (
           <List.Item>
-            <Card hoverable={true} title={item.name}>
-              <img alt="" src={item.thumbnail} />
-              <br />
-              <span style={{ color: "red" }}> {item.viewers} </span>
-              Viewers
-            </Card>
+            <a
+              href={item.url}
+              onClick={() => {
+                changeList(item.id, item.name);
+              }}
+            >
+              <Card hoverable={true} title={item.name}>
+                <img alt="" src={item.thumbnail} />
+                <br />
+                {item.viewers && (
+                  <div>
+                    <span style={{ color: "red" }}> {item.viewers} </span>
+                    Viewers
+                  </div>
+                )}
+              </Card>
+            </a>
           </List.Item>
         )}
       />
